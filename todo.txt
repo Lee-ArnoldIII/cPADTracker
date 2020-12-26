@@ -1,0 +1,14 @@
+Things to do:
+
+* Build progress table
+* Build assignment functions
+* Create candidate assignment (for mentors)
+* Upload to GitHub repo 
+* Create admin overview
+* Add comments to for documentation and checkpoints
+
+
+
+* Build all routes for creating users
+* Build route for putting in a observation
+* Test json response for all data coming back in Postman
