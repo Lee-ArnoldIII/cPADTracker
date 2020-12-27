@@ -5,20 +5,24 @@ class TaskModel(db.Model):
     __tablename__ = 'tasks'
 
     id = db.Column(db.Integer, primary_key=True)
-    task = db.Column(db.String(255))
+    name = db.Column(db.String(255))
+    description = db.Column(db.String(255))
 
-        
-
-    def __init__(self, task):
-       self.task = task
+    def __init__(self, name, description):
+       self.name = name
+       self.description = description
         
     def json(self):
-        return {'Task id': self.id, 'Task': self.task}
+        return {'task id': self.id, 'name': self.name, 'description': self.description}
 
+    @classmethod
+    def find_by_name(cls, name):
+        return cls.query.filter_by(name=name).first()
+        
     def save_to_db(self):
         db.session.add(self)
         db.session.commit()
 
-    @classmethod
-    def find_by_task(cls, task):
-        return cls.query.filter_by(task=task).first()
+    def delete_from_db(self):
+        db.session.delete(self)
+        db.session.commit()

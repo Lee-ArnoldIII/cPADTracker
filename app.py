@@ -5,7 +5,7 @@ from flask_jwt import JWT
 
 from security import authenticate, identify
 from resources.user import UserRegister, UserList
-from resources.tasks import TaskRegister, TaskList
+from resources.tasks import Task, TaskList
 
 
 app = Flask(__name__)
@@ -20,14 +20,14 @@ def create_tables():
 
 jwt = JWT(app, authenticate, identify)
 
-api.add_resource(UserRegister, '/register')
-api.add_resource(UserList, '/users')
-api.add_resource(TaskRegister, '/taskregister')
-api.add_resource(TaskList, '/tasks')
-# api.add_resource(<name>, '/<routeName>')
 
-# api.add_resource(<name>, '/<routeName>')
-# api.add_resource(<name>, '/<routeName>')
+api.add_resource(UserList, '/users')
+api.add_resource(Task, '/task/<string:name>')
+api.add_resource(TaskList, '/tasks')
+
+api.add_resource(UserRegister, '/register')
+
+
 
 if __name__ == '__main__':
     db.init_app(app)
