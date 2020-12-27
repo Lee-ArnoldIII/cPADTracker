@@ -20,7 +20,7 @@ class UserModel(db.Model):
        self.last_name = last_name
         
     def json(self):
-        return {'User': self.id, 'First Name': self.first_name, 'Last Name': self.last_name, 'User Type': self.user_type}
+        return {'User': self.id, 'Username': self.username, 'First Name': self.first_name, 'Last Name': self.last_name, 'User Type': self.user_type}
 
     def save_to_db(self):
         db.session.add(self)

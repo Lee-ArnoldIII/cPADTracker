@@ -3,9 +3,9 @@ from flask import Flask
 from flask_restful import Api
 from flask_jwt import JWT
 
-from security import authenticate, identify
+from security import authenticate, identity
 from resources.user import UserRegister, UserList
-from resources.tasks import Task, TaskList
+from resources.task import TaskRegister, TaskList
 
 
 app = Flask(__name__)
@@ -18,15 +18,13 @@ api = Api(app)
 def create_tables():
     db.create_all()
 
-jwt = JWT(app, authenticate, identify)
-
-
-api.add_resource(UserList, '/users')
-api.add_resource(Task, '/task/<string:name>')
-api.add_resource(TaskList, '/tasks')
+jwt = JWT(app, authenticate, identity)
 
 api.add_resource(UserRegister, '/register')
+api.add_resource(UserList, '/users')
 
+api.add_resource(TaskRegister, '/task/<string:name>')
+api.add_resource(TaskList, '/tasks')
 
 
 if __name__ == '__main__':
