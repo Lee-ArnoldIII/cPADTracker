@@ -20,7 +20,7 @@ def create_tables():
 
 jwt = JWT(app, authenticate, identity)
 
-api.add_resource(Report, '/report/<string:date>')
+api.add_resource(Report, '/report/<string:id>')
 api.add_resource(Task, '/task/<string:name>')
 api.add_resource(TaskList, '/tasks')
 api.add_resource(ReportList, '/reports')

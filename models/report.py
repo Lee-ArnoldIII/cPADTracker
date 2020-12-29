@@ -8,26 +8,31 @@ class ReportModel(db.Model):
     __tablename__ = 'reports'
 
     id = db.Column(db.Integer, primary_key=True)
+    benchmark = db.Column(db.String(80))
     content = db.Column(db.Text)
-    date = db.Column(db.Date)
-
-    #TODO: change this later to connect to users table task maybe
-    #user_id = db.Column(db.Integer, db.ForeignKey('user.id))
-    #user = db.relationship('UserModel')
-
-    def __init__(self, content, date):
+    status = db.Column(db.String(80))
+    
+        
+    def __init__(self, benchmark, content, status):
+        self.benchmark = benchmark
         self.content = content
-        self.date = date
-
+        self.status = status
+        
+     
     def json(self):
-        return {'content': self.content, 'date': self.date}
+        return {'benchmark': self.benchmark,'content': self.content, 
+                'status': self.status}
+        # may need to do a list comprehension for this function to show all reports for a selected user
 
+   
     @classmethod
-    def find_by_date(cls, date):
-        return cls.query.filter_by(date=date).all()
+    def find_by_id(cls, _id):
+        return cls.query.filter_by(id=_id).all()
 
     def save_to_db(self):
         db.session.add(self)
         db.session.commit()
 
-    
+    def delete_from_db(self):
+        db.session.delete(self)
+        db.session.commit()
