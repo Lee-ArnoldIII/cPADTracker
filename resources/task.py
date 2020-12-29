@@ -2,61 +2,63 @@ from flask_restful import Resource, reqparse
 from flask_jwt import JWT, jwt_required
 from models.task import TaskModel
 
-class TaskRegister(Resource):
+class Task(Resource):
     parser = reqparse.RequestParser()
-    parser.add_argument('name', 
-            type=str, 
-            required=True, 
-            help="This field cannot be blank!"
-    )
     parser.add_argument('description', 
-            type=str, 
-            required=True, 
-            help="This field cannot be blank!"
+        type=str,
+        required=True,
+        help="This field cannot be blank!"
     )
 
-    # @jwt_required()
+    @jwt_required()
     def get(self, name):
         task = TaskModel.find_by_name(name)
         if task:
             return task.json()
-        return {"message": "Task not found"}, 404
+        return {'message': "Task not found!"}, 404
 
     def post(self, name):
         if TaskModel.find_by_name(name):
-            return {"message": "A task with that name already exists"}, 400
+            return {'message': f"A task with name '{name}' already exists!"}, 400
+        
+        data = Task.parser.parse_args()
 
-        data = TaskRegister.parser.parse_args()
+        task = TaskModel(name, **data)
 
-        task = TaskModel(**data)
-        task.save_to_db()
+        try:
+            task.save_to_db()
+        except:
+            return {'message': "An error occured creating the task."}, 500
 
-        return {"message": "Task created successfully."}, 201
+        return task.json()
 
     def delete(self, name):
         task = TaskModel.find_by_name(name)
-        if task:
+        if task is None:
+            return {'message': 'Task not found!'}, 404
+        else:
             task.delete_from_db()
-        
-        return {'message': 'Task deleted.'}
+            return {'message': 'Task deleted.'}
 
     def put(self, name):
-        data = TaskRegister.parser.parse_args()
+        data = Task.parser.parse_args()
 
         task = TaskModel.find_by_name(name)
 
         if task is None:
-            task = TaskModel(**data)
-        else:
-            task.name = data['name']
+            task = TaskModel(name, **data)
+        else: 
+            task.name = name
             task.description = data['description']
         
-        task.save_to_db()
-
+        try:
+            task.save_to_db()
+        except:
+            return {'message': "An error occured."}, 500
+        
         return task.json()
 
-    
+
 class TaskList(Resource):
     def get(self):
         return {'tasks': [task.json() for task in TaskModel.query.all()]}
-        # alternative using lambda => return {'items': list(map(lambda x: x.json(), ItemModel.query.all()))}
