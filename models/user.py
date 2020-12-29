@@ -20,8 +20,8 @@ class UserModel(db.Model):
 
     def json(self):
         return {'User': self.id, 'username': self.username, 
-                'First Name': self.first_name, 'Last Name': self.last_name, 
-                'User Type': self.user_type}
+                'First_Name': self.first_name, 'Last_Name': self.last_name, 
+                'User_Type': self.user_type}
 
     @classmethod
     def find_by_username(cls, username):
