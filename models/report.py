@@ -1,4 +1,8 @@
 from db import db
+#TODO: Add following:
+# 1) remaining parts of model
+# 2) delete from db function
+# 3) update json function
 
 class ReportModel(db.Model):
     __tablename__ = 'reports'

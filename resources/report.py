@@ -2,6 +2,11 @@ from flask_restful import Resource, reqparse
 from flask_jwt import JWT, jwt_required
 from models.report import ReportModel
 
+#TODO: Add following:
+# 1) parser arguments from model
+# 2) all CRUD methods
+# 3) test to make sure this doesn't jack up JWT
+
 class Report(Resource):
     parser = reqparse.RequestParser()
     parser.add_argument('content', 
