@@ -21,7 +21,7 @@ class Report(Resource):
     def get(self, name):
         report = ReportModel.find_by_name(name)
         if report:
-            return report.json()
+            return [report.json() for report in ReportModel.find_by_name(name)]
         return {'message': "Report not found!"}, 404
 
     def post(self, name):
@@ -40,10 +40,32 @@ class Report(Resource):
         return {'message': "Report created successfully."}, 201
 
     def put(self, name):
-        pass
+        data = Report.parser.parse_args()
+
+        report = ReportModel.find_by_name(name)
+
+        if report is None:
+            report = ReportModel(name, **data)
+        else: 
+            report.name = name
+            report.benchmark = data['benchmark']
+            report.benchmark = data['content']
+            report.status = data['status']
+        
+        try:
+            report.save_to_db()
+        except:
+            return {'message': "An error occured."}, 500
+        
+        return report.json()
 
     def delete(self, name):
-        pass
+        report = ReportModel.find_by_name(name)
+        if report is None:
+            return {'message': 'Report not found!'}, 404
+        else:
+            report.delete_from_db()
+            return {'message': 'Report deleted.'}
 
 
 class ReportList(Resource):

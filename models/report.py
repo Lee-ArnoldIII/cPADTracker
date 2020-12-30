@@ -20,12 +20,9 @@ class ReportModel(db.Model):
         self.content = content
         self.status = status
         
-     
     def json(self):
-        return {'name': self.name, 'benchmark': self.benchmark,'content': self.content, 
-                'status': self.status}
-        # may need to do a list comprehension for this function to show all reports for a selected user
-
+        return {'Name': self.name, 'Benchmark': self.benchmark, 
+                'Content': self.content, 'Status': self.status}
    
     @classmethod
     def find_by_name(cls, name):
