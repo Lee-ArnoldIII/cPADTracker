@@ -18,6 +18,11 @@ class Report(Resource):
             required=True,
             help='This cannot be blank!'
     )
+    parser.add_argument('username', 
+            type=str,
+            required=True,
+            help='This cannot be blank!'
+    )
 
     @jwt_required()
     def get(self, name):
@@ -53,6 +58,7 @@ class Report(Resource):
             report.benchmark = data['benchmark']
             report.content = data['content']
             report.status = data['status']
+            
            
         try:
             report.save_to_db()

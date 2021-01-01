@@ -4,7 +4,7 @@ from flask_jwt import JWT
 from db import db
 
 from security import authenticate, identity
-from resources.user import UserRegister, UserList, User
+from resources.user import UserRegister, UserList, User, UserReport
 from resources.task import Task, TaskList
 from resources.report import Report, ReportList
 
@@ -28,6 +28,7 @@ api.add_resource(ReportList, '/reports')
 api.add_resource(UserRegister, '/register')
 api.add_resource(User, '/user/<string:username>')
 api.add_resource(UserList, '/users')
+api.add_resource(UserReport, '/feedback/<string:username>')
 
 if __name__ == '__main__':
     db.init_app(app)

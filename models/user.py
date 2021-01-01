@@ -11,6 +11,7 @@ class UserModel(db.Model):
     first_name = db.Column(db.String(80))
     last_name = db.Column(db.String(80))
 
+    report = db.relationship('ReportModel', lazy='dynamic')
 
     def __init__(self, username, password, user_type, first_name, last_name):
         self.username = username
@@ -23,6 +24,9 @@ class UserModel(db.Model):
         return {'User': self.id, 'username': self.username, 
                 'First Name': self.first_name, 'Last Name': self.last_name, 
                 'User Type': self.user_type}
+    
+    def json2(self):
+        return {'User': self.username, 'reports': [report.json() for report in self.report.all()]}
 
     @classmethod
     def find_by_username(cls, username):
