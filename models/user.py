@@ -22,15 +22,11 @@ class UserModel(db.Model):
 
     def json(self):
         return {'User': self.id, 'username': self.username, 
-
                 'First Name': self.first_name, 'Last Name': self.last_name, 
                 'User Type': self.user_type}
     
     def json2(self):
         return {'User': self.username, 'reports': [report.json() for report in self.report.all()]}
-
-                'First_Name': self.first_name, 'Last_Name': self.last_name, 
-                'User_Type': self.user_type}
 
 
     @classmethod
