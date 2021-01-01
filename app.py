@@ -5,7 +5,7 @@ from flask_cors import CORS
 from db import db
 
 from security import authenticate, identity
-from resources.user import UserRegister, UserList, User
+from resources.user import UserRegister, UserList, User, UserReport
 from resources.task import Task, TaskList
 from resources.report import Report, ReportList
 
@@ -37,6 +37,7 @@ api.add_resource(ReportList, '/reports')
 api.add_resource(UserRegister, '/register')
 api.add_resource(User, '/user/<string:username>')
 api.add_resource(UserList, '/users')
+api.add_resource(UserReport, '/feedback/<string:username>')
 
 CORS(app, resources={ r'/*': {'origins': config['ORIGINS']}}, supports_credentials=True)
 

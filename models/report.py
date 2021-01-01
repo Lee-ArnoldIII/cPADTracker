@@ -1,8 +1,5 @@
 from db import db
 #TODO: Add following:
-# 1) remaining parts of model
-
-# 3) update json function
 
 class ReportModel(db.Model):
     __tablename__ = 'reports'
@@ -12,13 +9,17 @@ class ReportModel(db.Model):
     benchmark = db.Column(db.String(80))
     content = db.Column(db.Text)
     status = db.Column(db.String(80))
+
+    username = db.Column(db.String(80), db.ForeignKey('users.username'))
+    users = db.relationship('UserModel')
     
         
-    def __init__(self, name, benchmark, content, status):
+    def __init__(self, name, benchmark, content, status, username):
         self.name = name
         self.benchmark = benchmark
         self.content = content
         self.status = status
+        self.username = username
         
     def json(self):
         return {'Name': self.name, 'Benchmark': self.benchmark, 

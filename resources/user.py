@@ -102,3 +102,11 @@ class User(Resource):
 class UserList(Resource):
     def get(self):
         return {'user': [user.json() for user in UserModel.query.all()]}
+
+
+class UserReport(Resource):
+    def get(self, username):
+        user = UserModel.find_by_username(username)
+        if user:
+            return user.json2()
+        return {'message': "There are no reports for this user!"}, 404
