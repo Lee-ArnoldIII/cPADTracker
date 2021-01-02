@@ -43,12 +43,6 @@ class UserRegister(Resource):
 
 class User(Resource):
     parser = reqparse.RequestParser()
-    
-    parser.add_argument('password',
-            type=str,
-            required=True,
-            help="This field cannot be blank!"
-    )
     parser.add_argument('user_type',
             type=str,
             required=True,
@@ -63,6 +57,11 @@ class User(Resource):
             type=str,
             required=True,
             help="This field cannot be blank!"
+    )
+    parser.add_argument('assigned_mentor',
+            type=str,
+            required=False,
+            help="This field can be blank!"
     )
 
     @jwt_required()
@@ -81,10 +80,10 @@ class User(Resource):
             user = UserModel(username, **data)
         else:
             user.username = username
-            user.password = data['password']
             user.user_type = data['user_type']
             user.first_name = data['first_name']
             user.last_name = data['last_name']
+            user.assigned_mentor = data['assigned_mentor']
 
         user.save_to_db()
 
@@ -110,3 +109,6 @@ class UserReport(Resource):
         if user:
             return user.json2()
         return {'message': "There are no reports for this user!"}, 404
+
+
+
