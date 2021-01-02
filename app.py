@@ -8,6 +8,7 @@ from security import authenticate, identity
 from resources.user import UserRegister, UserList, User, UserReport
 from resources.task import Task, TaskList
 from resources.report import Report, ReportList
+from resources.mentor import MentorRegister, Mentor, MentorList, UserMentors
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
@@ -38,6 +39,11 @@ api.add_resource(UserRegister, '/register')
 api.add_resource(User, '/user/<string:username>')
 api.add_resource(UserList, '/users')
 api.add_resource(UserReport, '/feedback/<string:username>')
+
+api.add_resource(MentorRegister, '/mentorregister')
+api.add_resource(Mentor, '/mentor/<string:username>')
+api.add_resource(MentorList, '/mentors')
+api.add_resource(UserMentors, '/assigned/<string:username>')
 
 CORS(app, resources={ r'/*': {'origins': config['ORIGINS']}}, supports_credentials=True)
 

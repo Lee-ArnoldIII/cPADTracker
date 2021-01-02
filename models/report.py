@@ -22,8 +22,8 @@ class ReportModel(db.Model):
         self.username = username
         
     def json(self):
-        return {'Name': self.name, 'Benchmark': self.benchmark, 
-                'Content': self.content, 'Status': self.status}
+        return {'name': self.name, 'benchmark': self.benchmark, 
+                'content': self.content, 'status': self.status, 'user': self.username}
    
     @classmethod
     def find_by_name(cls, name):

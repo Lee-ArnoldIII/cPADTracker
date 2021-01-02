@@ -10,23 +10,27 @@ class UserModel(db.Model):
     user_type = db.Column(db.String(80))
     first_name = db.Column(db.String(80))
     last_name = db.Column(db.String(80))
+    
+    assigned_mentor = db.Column(db.String(80), db.ForeignKey('mentors.username'))
+    mentor = db.relationship('MentorModel')
 
     report = db.relationship('ReportModel', lazy='dynamic')
 
-    def __init__(self, username, password, user_type, first_name, last_name):
+    def __init__(self, username, password, user_type, first_name, last_name, assigned_mentor=''):
         self.username = username
         self.password = password
         self.user_type = user_type
         self.first_name = first_name
         self.last_name = last_name
+        self.assigned_mentor = assigned_mentor
 
     def json(self):
-        return {'User': self.id, 'username': self.username, 
-                'First_Name': self.first_name, 'Last_Name': self.last_name, 
-                'User_Type': self.user_type}
+        return {'user': self.id, 'username': self.username, 
+                'first_name': self.first_name, 'last_name': self.last_name, 
+                'user_type': self.user_type, 'mentor': self.assigned_mentor}
     
     def json2(self):
-        return {'User': self.username, 'reports': [report.json() for report in self.report.all()]}
+        return {'user': self.username, 'reports': [report.json() for report in self.report.all()]}
 
 
     @classmethod
