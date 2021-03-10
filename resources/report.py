@@ -1,4 +1,4 @@
-from flask_jwt import JWT, jwt_required
+from flask_jwt_extended import jwt_required
 from flask_restful import reqparse, Resource
 from models.report import ReportModel
 
@@ -24,7 +24,7 @@ class Report(Resource):
             help='This cannot be blank!'
     )
 
-    @jwt_required()
+    @jwt_required
     def get(self, name):
         report = ReportModel.find_by_name(name)
         if report:

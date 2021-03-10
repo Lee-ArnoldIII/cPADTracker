@@ -1,11 +1,11 @@
 from flask import Flask
 from flask_restful import Api
-from flask_jwt import JWT
+from flask_jwt_extended import JWTManager
 from flask_cors import CORS
 from db import db
 
-from security import authenticate, identity
-from resources.user import UserRegister, UserList, User, UserReport
+
+from resources.user import UserRegister, UserList, User, UserReport, UserLogin
 from resources.task import Task, TaskList
 from resources.report import Report, ReportList
 from resources.mentor import MentorRegister, Mentor, MentorList, UserMentors
@@ -28,7 +28,7 @@ api = Api(app)
 def create_tables():
     db.create_all()
 
-jwt = JWT(app, authenticate, identity)
+jwt = JWTManager(app)
 
 api.add_resource(Report, '/report/<string:name>')
 api.add_resource(Task, '/task/<string:name>')
@@ -39,6 +39,7 @@ api.add_resource(UserRegister, '/register')
 api.add_resource(User, '/user/<string:username>')
 api.add_resource(UserList, '/users')
 api.add_resource(UserReport, '/feedback/<string:username>')
+api.add_resource(UserLogin, '/login')
 
 api.add_resource(MentorRegister, '/mentorregister')
 api.add_resource(Mentor, '/mentor/<string:username>')
