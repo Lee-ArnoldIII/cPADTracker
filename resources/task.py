@@ -1,5 +1,5 @@
 from flask_restful import Resource, reqparse
-from flask_jwt import JWT, jwt_required
+from flask_jwt_extended import jwt_required
 from models.task import TaskModel
 
 class Task(Resource):
@@ -10,7 +10,7 @@ class Task(Resource):
         help="This field cannot be blank!"
     )
 
-    @jwt_required()
+    @jwt_required
     def get(self, name):
         task = TaskModel.find_by_name(name)
         if task:
